@@ -25,6 +25,7 @@ const dummy = [
 ];
 
 function App() {
+  const [isOpen, setIsOpen] = useState(true);
   const [search, setSearch] = useState("");
 
   const [data, setData] = useState(() => {
@@ -62,14 +63,21 @@ function App() {
     <div
       className={`${
         darkMode ? "dark" : ""
-      } dark:bg-dkPrimary md:text-lg lg:text-xl text-base h-screen`}
+      } dark:bg-dkPrimary md:text-lg lg:text-xl text-base ${
+        !isOpen &&
+        data.filter((datas) => {
+          return datas.name.toLowerCase().includes(search.toLowerCase());
+        }).length <= 2
+          ? "h-screen"
+          : "h-fit"
+      }`}
     >
       <Header toggleDarkMode={toggleDarkMode} />
       <Navigate />
       <Search search={search} onSearch={setSearch} />
       <Main>
         <Interface>
-          <AddData onData={handleData} />
+          <AddData onData={handleData} setIsOpen={setIsOpen} isOpen={isOpen} />
         </Interface>
         <Interface>
           <DataReady
@@ -159,12 +167,11 @@ const Interface = ({ children }) => {
   );
 };
 
-const AddData = ({ onData }) => {
+const AddData = ({ onData, setIsOpen, isOpen }) => {
   const [name, setName] = useState("");
   const [release, setRelease] = useState("");
   const [author, setAuthor] = useState("");
   const [checked, setChecked] = useState(false);
-  const [isOpen, setIsOpen] = useState(true);
 
   const handleClick = (e) => {
     e.preventDefault();
