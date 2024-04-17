@@ -62,7 +62,7 @@ function App() {
     <div
       className={`${
         darkMode ? "dark" : ""
-      } dark:bg-dkPrimary md:text-lg lg:text-xl text-base`}
+      } dark:bg-dkPrimary md:text-lg lg:text-xl text-base h-screen`}
     >
       <Header toggleDarkMode={toggleDarkMode} />
       <Navigate />
@@ -132,7 +132,7 @@ const Search = ({ search, onSearch }) => {
             type="text"
             id="search"
             placeholder="cari buku anda"
-            className="h-8 p-2 rounded-md ring-1 ring-black shadow-lg"
+            className="h-8 p-2 rounded-md ring-1 ring-black shadow-lg text-black"
             value={search}
             onChange={(e) => onSearch(e.target.value)}
             autoComplete="off"
