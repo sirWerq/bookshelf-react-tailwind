@@ -14,23 +14,23 @@ import Footer from "./components/Footer";
 const dummy = [
   {
     id: 1,
-    name: "Saekano",
-    release: "2018-07-22",
-    author: "Jakarta",
+    name: "Cinta terlarang Kenny dan Hendri",
+    release: "2021-07-22",
+    author: "Opung Bene",
     checked: true,
   },
   {
     id: 2,
-    name: "Megumi Kato",
-    release: "2018-07-22",
-    author: "Bandung",
+    name: "Pertikaian Kelamin Kenny dan Hendri",
+    release: "2022-04-02",
+    author: "Opung Bene",
     checked: false,
   },
   {
     id: 3,
-    name: "Soyo Nagasaki",
-    release: "2018-07-22",
-    author: "Jakarta",
+    name: "Cinta Segitiga Kenny",
+    release: "2023-11-19",
+    author: "Opung Bene",
     checked: true,
   },
 ];
