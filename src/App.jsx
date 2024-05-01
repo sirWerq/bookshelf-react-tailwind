@@ -72,8 +72,7 @@ function App() {
   };
 
   const handleEditData = (id) => {
-    const bookToEdit = data.find((item) => item.id === id);
-    setEditData(bookToEdit);
+    setEditData(data.find((data) => data.id === id));
   };
 
   const handleSaveEdit = () => {
