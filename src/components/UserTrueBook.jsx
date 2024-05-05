@@ -1,14 +1,26 @@
 /* eslint-disable react/prop-types */
+import { useState } from "react";
+
 const UserTrueBook = ({
   search,
   data,
   onDeleteButton,
   onEditButton,
-  editData,
-  onSaveEdit,
-  setEditData,
-  onEditData,
+  setData,
 }) => {
+  const [editData, setEditData] = useState(null);
+
+  const handleSaveEdit = () => {
+    setData((prevData) =>
+      prevData.map((item) => (item.id === editData.id ? { ...editData } : item))
+    );
+    setEditData(null);
+  };
+
+  const handleEditData = (id) => {
+    setEditData(data.find((data) => data.id === id));
+  };
+
   return (
     <>
       <h2 className="text-lg xl:text-xl font-semibold text-center mb-3">
@@ -42,7 +54,7 @@ const UserTrueBook = ({
                   </button>
                   <button
                     className="mr-2 mt-2 rounded-full bg-third hover:bg-slate-100 dark:bg-dkThird dark:hover:bg-slate-600 hover:ring-black hover:ring-1 px-2 py-1"
-                    onClick={() => onEditData(datas.id)}
+                    onClick={() => handleEditData(datas.id)}
                   >
                     Edit Data
                   </button>
@@ -59,7 +71,7 @@ const UserTrueBook = ({
               className="w-[500px] p-5 flex gap-5 flex-col"
               onSubmit={(e) => {
                 e.preventDefault();
-                onSaveEdit();
+                handleSaveEdit();
               }}
             >
               <h2 className="text-center text-xl font-semibold">Edit Data</h2>

@@ -38,7 +38,6 @@ const dummy = [
 function App() {
   const [isOpen, setIsOpen] = useState(true);
   const [search, setSearch] = useState("");
-  const [editData, setEditData] = useState(null);
 
   const [data, setData] = useState(() => {
     const savedData = localStorage.getItem("data");
@@ -71,17 +70,6 @@ function App() {
     );
   };
 
-  const handleEditData = (id) => {
-    setEditData(data.find((data) => data.id === id));
-  };
-
-  const handleSaveEdit = () => {
-    setData((prevData) =>
-      prevData.map((item) => (item.id === editData.id ? { ...editData } : item))
-    );
-    setEditData(null);
-  };
-
   return (
     <div
       className={`${
@@ -108,10 +96,7 @@ function App() {
             data={data}
             onDeleteButton={handleDeleteButton}
             onEditButton={handleEditButton}
-            editData={editData}
-            onSaveEdit={handleSaveEdit}
-            setEditData={setEditData}
-            onEditData={handleEditData}
+            setData={setData}
           />
         </Interface>
         <Interface>
@@ -120,10 +105,7 @@ function App() {
             data={data}
             onDeleteButton={handleDeleteButton}
             onEditButton={handleEditButton}
-            editData={editData}
-            onSaveEdit={handleSaveEdit}
-            setEditData={setEditData}
-            onEditData={handleEditData}
+            setData={setData}
           />
         </Interface>
       </Main>
