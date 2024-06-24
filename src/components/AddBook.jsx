@@ -1,31 +1,57 @@
 /* eslint-disable react/prop-types */
-import { useState } from "react";
+import { useReducer } from "react";
+
 const AddBook = ({ onData, setIsOpen, isOpen }) => {
-  const [name, setName] = useState("");
-  const [release, setRelease] = useState("");
-  const [author, setAuthor] = useState("");
-  const [checked, setChecked] = useState(false);
+  const formReducer = (state, action) => {
+    switch (action.type) {
+      case "inputField":
+        return {
+          ...state,
+          [action.field]: action.value,
+        };
+      case "reset":
+        return action.initialState;
+      default:
+        return state;
+    }
+  };
+
+  const initialState = { name: "", release: "", author: "", checked: false };
+  const [state, dispatch] = useReducer(formReducer, initialState);
+
+  const handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    dispatch({
+      type: "inputField",
+      field: name,
+      value: type === "checkbox" ? checked : value,
+    });
+  };
 
   const handleClick = (e) => {
     e.preventDefault();
 
-    if (name.trim() == "" || release.trim() == "" || author.trim() == "")
+    if (
+      state.name.trim() === "" ||
+      state.release.trim() === "" ||
+      state.author.trim() === ""
+    )
       return;
 
     const newData = {
       id: new Date(),
-      name,
-      release,
-      author,
-      checked,
+      name: state.name,
+      release: state.release,
+      author: state.author,
+      checked: state.checked,
     };
 
     onData(newData);
 
-    setName("");
-    setRelease("");
-    setAuthor("");
-    setChecked(false);
+    dispatch({
+      type: "reset",
+      initialState,
+    });
   };
 
   return (
@@ -42,39 +68,42 @@ const AddBook = ({ onData, setIsOpen, isOpen }) => {
           onSubmit={handleClick}
         >
           <h2 className="text-center text-xl font-semibold">Tambah Data</h2>
-          <label htmlFor="search" className="flex flex-col gap-1">
+          <label htmlFor="name" className="flex flex-col gap-1">
             <span>Nama Buku: </span>
             <input
               type="text"
-              id="search"
+              id="name"
+              name="name"
               placeholder="masukkan nama buku"
               className="h-8 p-2 rounded-md ring-1 ring-black shadow-lg"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
+              value={state.name}
+              onChange={handleChange}
               autoComplete="off"
             />
           </label>
-          <label htmlFor="search" className="flex flex-col gap-1">
+          <label htmlFor="release" className="flex flex-col gap-1">
             <span>Tahun Dirilis: </span>
             <input
               type="date"
-              id="search"
+              id="release"
+              name="release"
               placeholder="masukkan rilis buku"
               className="h-8 p-2 rounded-md ring-1 ring-black shadow-lg dark:text-slate-500"
-              value={release}
-              onChange={(e) => setRelease(e.target.value)}
+              value={state.release}
+              onChange={handleChange}
               autoComplete="off"
             />
           </label>
-          <label htmlFor="search" className="flex flex-col gap-1">
+          <label htmlFor="author" className="flex flex-col gap-1">
             <span>Author: </span>
             <input
               type="text"
-              id="search"
+              id="author"
+              name="author"
               placeholder="masukkan author buku"
               className="h-8 p-2 rounded-md ring-1 ring-black shadow-lg"
-              value={author}
-              onChange={(e) => setAuthor(e.target.value)}
+              value={state.author}
+              onChange={handleChange}
               autoComplete="off"
             />
           </label>
@@ -82,8 +111,9 @@ const AddBook = ({ onData, setIsOpen, isOpen }) => {
             <input
               type="checkbox"
               id="checkbox"
-              checked={checked}
-              onChange={(e) => setChecked(e.target.checked)}
+              name="checked"
+              checked={state.checked}
+              onChange={handleChange}
             />
             <span>Sudah baca?</span>
           </label>
